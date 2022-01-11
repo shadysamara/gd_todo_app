@@ -4,7 +4,8 @@ import 'package:todo_ui/ui/widgets/task_widget.dart';
 
 class CompleteTasksScreen extends StatelessWidget {
   Function function;
-  CompleteTasksScreen(this.function);
+  Function deleteFun;
+  CompleteTasksScreen(this.function, this.deleteFun);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -19,7 +20,8 @@ class CompleteTasksScreen extends StatelessWidget {
                   allTasks
                       .where((element) => element.isComplete)
                       .toList()[index],
-                  function);
+                  function,
+                  deleteFun);
             });
   }
 }

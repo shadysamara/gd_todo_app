@@ -4,7 +4,8 @@ import 'package:todo_ui/models/task.dart';
 class TaskWidget extends StatelessWidget {
   Task task;
   Function function;
-  TaskWidget(this.task, this.function);
+  Function deleteFunction;
+  TaskWidget(this.task, this.function, this.deleteFunction);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -20,6 +21,12 @@ class TaskWidget extends StatelessWidget {
             onChanged: (value) {
               this.function(task);
             },
+            secondary: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                this.deleteFunction(task);
+              },
+            ),
             title: Text(task.title),
           ),
         ));
