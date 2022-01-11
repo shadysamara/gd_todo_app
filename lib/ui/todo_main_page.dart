@@ -10,7 +10,8 @@ class TodoMainPage extends StatefulWidget {
   State<TodoMainPage> createState() => _TodoMainPageState();
 }
 
-class _TodoMainPageState extends State<TodoMainPage> {
+class _TodoMainPageState extends State<TodoMainPage>
+    with SingleTickerProviderStateMixin {
   updateAllScreens(Task task) {
     task.isComplete = !task.isComplete;
     setState(() {});
@@ -21,49 +22,98 @@ class _TodoMainPageState extends State<TodoMainPage> {
     setState(() {});
   }
 
-  int index = 0;
+  TabController tabController;
+  initTabController() {
+    tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initTabController();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-          appBar: AppBar(
-            title: Text('TODO APP'),
-            bottom: TabBar(
-              tabs: [
-                Tab(
-                  icon: Icon(Icons.list),
-                ),
-                Tab(
-                  icon: Icon(Icons.done),
-                ),
-                Tab(
-                  icon: Icon(Icons.cancel_outlined),
-                ),
-              ],
-            ),
+    return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.done),
+          onPressed: () {
+            tabController.animateTo(1);
+          },
+        ),
+        drawer: Drawer(
+          child: Column(
+            children: [
+              UserAccountsDrawerHeader(
+                  currentAccountPicture: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: Text('O'),
+                  ),
+                  accountName: Text('Omar'),
+                  accountEmail: Text('omar@gmail.com')),
+              ListTile(
+                onTap: () {
+                  tabController.animateTo(0);
+                },
+                title: Text('All Tasks'),
+                trailing: Icon(Icons.arrow_forward_ios),
+              ),
+              ListTile(
+                onTap: () {
+                  tabController.animateTo(1);
+                },
+                title: Text('Complete Tasks'),
+                trailing: Icon(Icons.arrow_forward_ios),
+              ),
+              ListTile(
+                onTap: () {
+                  tabController.animateTo(2);
+                },
+                title: Text('InComplete Tasks'),
+                trailing: Icon(Icons.arrow_forward_ios),
+              ),
+            ],
           ),
-          // bottomNavigationBar: BottomNavigationBar(
-          //   currentIndex: index,
-          //   onTap: (newindex) {
-          //     setState(() {
-          //       this.index = newindex;
-          //     });
-          //   },
-          //   items: [
-          //     BottomNavigationBarItem(label: 'All', icon: Icon(Icons.list)),
-          //     BottomNavigationBarItem(label: 'Complete', icon: Icon(Icons.done)),
-          //     BottomNavigationBarItem(
-          //         label: 'InComplete', icon: Icon(Icons.cancel)),
-          //   ],
-          // ),
-          body: TabBarView(children: [
-            AllTasksScreen(updateAllScreens, deleteTask),
-            CompleteTasksScreen(updateAllScreens, deleteTask),
-            InCompleteTasksScreen(updateAllScreens, deleteTask),
-          ])),
-    );
+        ),
+        appBar: AppBar(
+          title: Text('TODO APP'),
+          bottom: TabBar(
+            controller: tabController,
+            tabs: [
+              Tab(
+                icon: Icon(Icons.list),
+              ),
+              Tab(
+                icon: Icon(Icons.done),
+              ),
+              Tab(
+                icon: Icon(Icons.cancel_outlined),
+              ),
+            ],
+          ),
+        ),
+        // bottomNavigationBar: BottomNavigationBar(
+        //   currentIndex: index,
+        //   onTap: (newindex) {
+        //     setState(() {
+        //       this.index = newindex;
+        //     });
+        //   },
+        //   items: [
+        //     BottomNavigationBarItem(label: 'All', icon: Icon(Icons.list)),
+        //     BottomNavigationBarItem(label: 'Complete', icon: Icon(Icons.done)),
+        //     BottomNavigationBarItem(
+        //         label: 'InComplete', icon: Icon(Icons.cancel)),
+        //   ],
+        // ),
+        body: TabBarView(controller: tabController, children: [
+          AllTasksScreen(updateAllScreens, deleteTask),
+          CompleteTasksScreen(updateAllScreens, deleteTask),
+          InCompleteTasksScreen(updateAllScreens, deleteTask),
+        ]));
   }
 }
 
