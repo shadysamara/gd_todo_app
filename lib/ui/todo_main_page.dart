@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:todo_ui/data/dummy_data.dart';
 import 'package:todo_ui/models/task.dart';
@@ -25,6 +27,14 @@ class _TodoMainPageState extends State<TodoMainPage>
   TabController tabController;
   initTabController() {
     tabController = TabController(length: 3, vsync: this);
+    tabController.addListener(() {
+      String message = tabController.index == 0
+          ? 'you are in the all tasks tab'
+          : tabController.index == 1
+              ? 'you are in the completed tasks tab'
+              : 'ypu are in the incomplete tasks tab';
+      log(message);
+    });
   }
 
   @override
