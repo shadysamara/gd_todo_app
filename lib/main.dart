@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_ui/ui/todo_main_page.dart';
 
 void main() async {
@@ -18,11 +21,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return MaterialApp(
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      home: TodoMainPage(),
+    return ScreenUtilInit(
+      designSize: Size(411, 820),
+      builder: () => MaterialApp(
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          home: ResponsiveTestScreen()
+
+          /* Builder(builder: (context) {
+            return Scaffold(
+              body: Center(
+                child: RaisedButton(
+                  onPressed: () {
+                    print(MediaQuery.of(context).size.width.toString());
+                    print(MediaQuery.of(context).size.height.toString());
+                  },
+                ),
+              ),
+            );
+          })*/
+          ),
     );
   }
 }
@@ -58,8 +77,8 @@ class ResponsiveTestScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Container(
-        height: MediaQuery.of(context).size.height / 4,
-        width: MediaQuery.of(context).size.width / 2,
+        height: 410.h,
+        width: 205.w,
         color: Colors.red,
       ),
     );
