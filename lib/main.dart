@@ -23,11 +23,12 @@ class MyApp extends StatelessWidget {
     // TODO: implement build
     return ScreenUtilInit(
       designSize: Size(411, 820),
+      minTextAdapt: true,
       builder: () => MaterialApp(
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
-          home: ResponsiveTestScreen()
+          home: Screen1()
 
           /* Builder(builder: (context) {
             return Scaffold(
@@ -80,6 +81,53 @@ class ResponsiveTestScreen extends StatelessWidget {
         height: 410.h,
         width: 205.w,
         color: Colors.red,
+      ),
+    );
+  }
+}
+
+class Screen1 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return Screen2(
+              content: 'this is data from screen 1',
+            );
+          }));
+        },
+      ),
+      appBar: AppBar(
+        title: Text('Screen1'),
+      ),
+      body: Center(
+        child: Text('Screen1'),
+      ),
+    );
+  }
+}
+
+class Screen2 extends StatelessWidget {
+  String content;
+  Screen2({this.content});
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+      appBar: AppBar(
+        title: Text('Screen2'),
+        automaticallyImplyLeading: false,
+      ),
+      body: Center(
+        child: Text(content),
       ),
     );
   }
