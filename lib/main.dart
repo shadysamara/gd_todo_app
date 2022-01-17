@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_ui/naviagation_example/page1.dart';
+import 'package:todo_ui/naviagation_example/page2.dart';
 import 'package:todo_ui/naviagation_example/splach_screen.dart';
 import 'package:todo_ui/ui/todo_main_page.dart';
 
@@ -27,12 +28,35 @@ class MyApp extends StatelessWidget {
       designSize: Size(411, 820),
       minTextAdapt: true,
       builder: () => MaterialApp(
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          home: SplachScreen()
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        home: SplachScreen(),
+        routes: {
+          'page1': (context) => Page1(),
+          'page2': (context) => Page2(),
+        },
+        onGenerateRoute: (RouteSettings routeSettings) {
+          String routeName = routeSettings.name;
+          var routeArguemnts = routeSettings.arguments;
+          switch (routeName) {
+            case ('screen1'):
+              return MaterialPageRoute(builder: (context) {
+                return Page1(paramaeters: routeArguemnts.toString());
+              });
+              break;
+            case ('screen2'):
+              return MaterialPageRoute(builder: (context) {
+                return Page2(message: routeArguemnts.toString());
+              });
+              break;
+          }
+          return MaterialPageRoute(builder: (context) {
+            return UndefinedRouter(routeName);
+          });
+        },
 
-          /* Builder(builder: (context) {
+        /* Builder(builder: (context) {
             return Scaffold(
               body: Center(
                 child: RaisedButton(
@@ -44,7 +68,7 @@ class MyApp extends StatelessWidget {
               ),
             );
           })*/
-          ),
+      ),
     );
   }
 }
@@ -130,6 +154,21 @@ class Screen2 extends StatelessWidget {
       ),
       body: Center(
         child: Text(content),
+      ),
+    );
+  }
+}
+
+class UndefinedRouter extends StatelessWidget {
+  String incorrectPath;
+  UndefinedRouter(this.incorrectPath);
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      backgroundColor: Colors.redAccent,
+      body: Center(
+        child: Text('Sorry the path $incorrectPath is not found'),
       ),
     );
   }

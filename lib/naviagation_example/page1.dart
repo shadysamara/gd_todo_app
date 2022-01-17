@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:todo_ui/naviagation_example/page2.dart';
 
 class Page1 extends StatelessWidget {
+  static String routeName = 'page1';
+  String paramaeters;
+  Page1({this.paramaeters});
   Future<bool> backIfCanPop(context) async {
     if (Navigator.canPop(context)) {
       Navigator.pop(context);
@@ -32,7 +35,7 @@ class Page1 extends StatelessWidget {
     // TODO: implement build
     return WillPopScope(
       onWillPop: () {
-        return backIfCanPop(context);
+        return Future.value(true);
       },
       child: Scaffold(
         appBar: AppBar(
@@ -50,7 +53,8 @@ class Page1 extends StatelessWidget {
                 //   );
                 // }));
                 // print(message);
-                backIfCanPop(context);
+                // backIfCanPop(context);
+                Navigator.of(context).pushNamed('screen2', arguments: 'hello');
               },
               child: Text('Go to screen2')),
         ),
