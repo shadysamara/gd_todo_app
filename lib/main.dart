@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_ui/naviagation_example/page1.dart';
 import 'package:todo_ui/naviagation_example/page2.dart';
 import 'package:todo_ui/naviagation_example/splach_screen.dart';
+import 'package:todo_ui/router.dart';
 import 'package:todo_ui/ui/todo_main_page.dart';
 
 void main() async {
@@ -28,14 +29,12 @@ class MyApp extends StatelessWidget {
       designSize: Size(411, 820),
       minTextAdapt: true,
       builder: () => MaterialApp(
+        navigatorKey: RouterClass.routerClass.navKey,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
         home: SplachScreen(),
-        routes: {
-          'page1': (context) => Page1(),
-          'page2': (context) => Page2(),
-        },
+        routes: RouterClass.routerClass.map,
         onGenerateRoute: (RouteSettings routeSettings) {
           String routeName = routeSettings.name;
           var routeArguemnts = routeSettings.arguments;

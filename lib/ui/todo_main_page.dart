@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:todo_ui/data/dummy_data.dart';
 import 'package:todo_ui/models/task.dart';
+import 'package:todo_ui/router.dart';
 import 'package:todo_ui/ui/screens/all_tasks_screen.dart';
 import 'package:todo_ui/ui/screens/complete_tasks_screen.dart';
 import 'package:todo_ui/ui/screens/inComplete_tasks_screen.dart';
+import 'package:todo_ui/ui/screens/new_task_screen.dart';
 
 class TodoMainPage extends StatefulWidget {
   @override
@@ -50,9 +52,10 @@ class _TodoMainPageState extends State<TodoMainPage>
     return MediaQuery.of(context).orientation == Orientation.portrait
         ? Scaffold(
             floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.done),
+              child: Icon(Icons.add),
               onPressed: () {
-                tabController.animateTo(1);
+                RouterClass.routerClass
+                    .pushToSpecificScreenUsingWidget(NewTaskScreen());
               },
             ),
             drawer: Drawer(

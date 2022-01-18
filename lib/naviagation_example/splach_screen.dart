@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_ui/naviagation_example/page1.dart';
+import 'package:todo_ui/router.dart';
+import 'package:todo_ui/ui/todo_main_page.dart';
 
 class SplachScreen extends StatefulWidget {
   @override
@@ -9,9 +11,7 @@ class SplachScreen extends StatefulWidget {
 class _SplachScreenState extends State<SplachScreen> {
   NavigationFunction(context) async {
     await Future.delayed(Duration(seconds: 3));
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-      return Page1();
-    }));
+    RouterClass.routerClass.pushToSpecificScreenUsingWidget(TodoMainPage());
   }
 
   @override
