@@ -1,8 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:todo_ui/data/dummy_data.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_ui/models/task.dart';
+import 'package:todo_ui/providers/todo_provider.dart';
 import 'package:todo_ui/router.dart';
 import 'package:todo_ui/ui/screens/all_tasks_screen.dart';
 import 'package:todo_ui/ui/screens/complete_tasks_screen.dart';
@@ -16,16 +17,6 @@ class TodoMainPage extends StatefulWidget {
 
 class _TodoMainPageState extends State<TodoMainPage>
     with SingleTickerProviderStateMixin {
-  updateAllScreens(Task task) {
-    task.isComplete = !task.isComplete;
-    setState(() {});
-  }
-
-  deleteTask(Task task) {
-    allTasks.remove(task);
-    setState(() {});
-  }
-
   TabController tabController;
   initTabController() {
     tabController = TabController(length: 3, vsync: this);
@@ -124,9 +115,9 @@ class _TodoMainPageState extends State<TodoMainPage>
             //   ],
             // ),
             body: TabBarView(controller: tabController, children: [
-              AllTasksScreen(updateAllScreens, deleteTask),
-              CompleteTasksScreen(updateAllScreens, deleteTask),
-              InCompleteTasksScreen(updateAllScreens, deleteTask),
+              AllTasksScreen(),
+              CompleteTasksScreen(),
+              InCompleteTasksScreen(),
             ]))
         : Scaffold(
             appBar: AppBar(
@@ -170,9 +161,9 @@ class _TodoMainPageState extends State<TodoMainPage>
                 ),
                 Expanded(
                     child: TabBarView(controller: tabController, children: [
-                  AllTasksScreen(updateAllScreens, deleteTask),
-                  CompleteTasksScreen(updateAllScreens, deleteTask),
-                  InCompleteTasksScreen(updateAllScreens, deleteTask),
+                  AllTasksScreen(),
+                  CompleteTasksScreen(),
+                  InCompleteTasksScreen(),
                 ]))
               ],
             ),

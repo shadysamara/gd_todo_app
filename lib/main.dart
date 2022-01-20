@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_ui/naviagation_example/page1.dart';
 import 'package:todo_ui/naviagation_example/page2.dart';
 import 'package:todo_ui/naviagation_example/splach_screen.dart';
+import 'package:todo_ui/providers/todo_provider.dart';
 import 'package:todo_ui/router.dart';
 import 'package:todo_ui/ui/todo_main_page.dart';
 
@@ -13,11 +15,16 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   runApp(
-    EasyLocalization(
-        supportedLocales: [Locale('en'), Locale('ar')],
-        path: 'assets/langs', // <-- change the path of the translation files
-        fallbackLocale: Locale('en'),
-        child: MyApp()),
+    ChangeNotifierProvider<TodoProvider>(
+      create: (context) {
+        return TodoProvider();
+      },
+      child: EasyLocalization(
+          supportedLocales: [Locale('en'), Locale('ar')],
+          path: 'assets/langs', // <-- change the path of the translation files
+          fallbackLocale: Locale('en'),
+          child: MyApp()),
+    ),
   );
 }
 

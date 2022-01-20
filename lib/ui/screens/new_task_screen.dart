@@ -1,20 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:todo_ui/data/dummy_data.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_ui/models/task.dart';
+import 'package:todo_ui/providers/todo_provider.dart';
 import 'package:todo_ui/router.dart';
 
-class NewTaskScreen extends StatefulWidget {
-  @override
-  State<NewTaskScreen> createState() => _NewTaskScreenState();
-}
-
-class _NewTaskScreenState extends State<NewTaskScreen> {
-  String taskTitle;
-
-  bool isComplete = false;
-
+class NewTaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -30,66 +22,24 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
               height: 30,
             ),
             TextField(
-              onChanged: (String value) {
-                this.taskTitle = value;
-              },
+              controller:
+                  Provider.of<TodoProvider>(context).taskTitleController,
               decoration: InputDecoration(
                   label: Text('Task title'),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15))),
             ),
             CheckboxListTile(
-              value: isComplete,
+              value: Provider.of<TodoProvider>(context).taskIsComplete,
               onChanged: (value) {
-                this.isComplete = value;
-                setState(() {});
+                Provider.of<TodoProvider>(context, listen: false)
+                    .changeIsCompleteOnNewTaskScreen();
               },
               title: Text('I have complete this task'),
             ),
             InkWell(
               onTap: () {
-                if (this.taskTitle == null) {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          actions: [
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text('ok'))
-                          ],
-                          content: Text('Task titke cant be empty'),
-                        );
-                      });
-                } else {
-                  Iterable<Task> taskIsExist = allTasks
-                      .where((element) => element.title == this.taskTitle);
-
-                  if (taskIsExist.length == 0) {
-                    Task task = Task(
-                        isComplete: this.isComplete, title: this.taskTitle);
-                    allTasks.add(task);
-                    RouterClass.routerClass.popFunction();
-                  } else {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            actions: [
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text('ok'))
-                            ],
-                            content:
-                                Text('You have to enter unique task title'),
-                          );
-                        });
-                  }
-                }
+                Provider.of<TodoProvider>(context, listen: false).addNewTask();
               },
               child: Container(
                 alignment: Alignment.center,

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_ui/models/task.dart';
+import 'package:todo_ui/providers/todo_provider.dart';
 
 class TaskWidget extends StatelessWidget {
   Task task;
-  Function function;
-  Function deleteFunction;
-  TaskWidget(this.task, this.function, this.deleteFunction);
+
+  TaskWidget(this.task);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -19,12 +20,14 @@ class TaskWidget extends StatelessWidget {
           child: CheckboxListTile(
             value: task.isComplete,
             onChanged: (value) {
-              this.function(task);
+              Provider.of<TodoProvider>(context, listen: false)
+                  .updateTask(task);
             },
             secondary: IconButton(
               icon: Icon(Icons.delete),
               onPressed: () {
-                this.deleteFunction(task);
+                Provider.of<TodoProvider>(context, listen: false)
+                    .removeTask(task);
               },
             ),
             title: Text(task.title),
