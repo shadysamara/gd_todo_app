@@ -11,6 +11,7 @@ import 'package:todo_ui/naviagation_example/splach_screen.dart';
 import 'package:todo_ui/providers/database_provider.dart';
 import 'package:todo_ui/providers/todo_provider.dart';
 import 'package:todo_ui/router.dart';
+import 'package:todo_ui/ui/screens/test_camera/camera_provider.dart';
 import 'package:todo_ui/ui/todo_main_page.dart';
 
 void main() async {
@@ -20,6 +21,11 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider<CameraProvider>(
+          create: (context) {
+            return CameraProvider();
+          },
+        ),
         ChangeNotifierProvider<TodoProvider>(
           create: (context) {
             return TodoProvider();

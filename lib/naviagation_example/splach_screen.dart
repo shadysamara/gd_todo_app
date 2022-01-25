@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_ui/naviagation_example/page1.dart';
 import 'package:todo_ui/router.dart';
+import 'package:todo_ui/ui/screens/test_camera/profile_screen.dart';
 import 'package:todo_ui/ui/todo_main_page.dart';
 
 class SplachScreen extends StatefulWidget {
@@ -11,7 +12,7 @@ class SplachScreen extends StatefulWidget {
 class _SplachScreenState extends State<SplachScreen> {
   NavigationFunction(context) async {
     await Future.delayed(Duration(seconds: 3));
-    RouterClass.routerClass.pushToSpecificScreenUsingWidget(TodoMainPage());
+    RouterClass.routerClass.pushToSpecificScreenUsingWidget(ProfileScreen());
   }
 
   @override
