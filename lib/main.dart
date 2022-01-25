@@ -8,6 +8,7 @@ import 'package:todo_ui/data/database_helper.dart';
 import 'package:todo_ui/naviagation_example/page1.dart';
 import 'package:todo_ui/naviagation_example/page2.dart';
 import 'package:todo_ui/naviagation_example/splach_screen.dart';
+import 'package:todo_ui/providers/database_provider.dart';
 import 'package:todo_ui/providers/todo_provider.dart';
 import 'package:todo_ui/router.dart';
 import 'package:todo_ui/ui/todo_main_page.dart';
@@ -17,10 +18,19 @@ void main() async {
   await DatabaseHelper.databaseHelper.initDatabase();
   await EasyLocalization.ensureInitialized();
   runApp(
-    ChangeNotifierProvider<TodoProvider>(
-      create: (context) {
-        return TodoProvider();
-      },
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<TodoProvider>(
+          create: (context) {
+            return TodoProvider();
+          },
+        ),
+        ChangeNotifierProvider<DatabaseProvider>(
+          create: (context) {
+            return DatabaseProvider();
+          },
+        ),
+      ],
       child: EasyLocalization(
           supportedLocales: [Locale('en'), Locale('ar')],
           path: 'assets/langs', // <-- change the path of the translation files

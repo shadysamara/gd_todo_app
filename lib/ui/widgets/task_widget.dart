@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_ui/models/task.dart';
+import 'package:todo_ui/providers/database_provider.dart';
 import 'package:todo_ui/providers/todo_provider.dart';
 
 class TaskWidget extends StatelessWidget {
@@ -20,14 +21,14 @@ class TaskWidget extends StatelessWidget {
           child: CheckboxListTile(
             value: task.isComplete,
             onChanged: (value) {
-              Provider.of<TodoProvider>(context, listen: false)
+              Provider.of<DatabaseProvider>(context, listen: false)
                   .updateTask(task);
             },
             secondary: IconButton(
               icon: Icon(Icons.delete),
               onPressed: () {
-                Provider.of<TodoProvider>(context, listen: false)
-                    .removeTask(task);
+                Provider.of<DatabaseProvider>(context, listen: false)
+                    .deleteTask(task);
               },
             ),
             title: Text(task.title),

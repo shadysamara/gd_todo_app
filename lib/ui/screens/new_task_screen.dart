@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_ui/models/task.dart';
+import 'package:todo_ui/providers/database_provider.dart';
 import 'package:todo_ui/providers/todo_provider.dart';
 import 'package:todo_ui/router.dart';
 
@@ -23,23 +24,25 @@ class NewTaskScreen extends StatelessWidget {
             ),
             TextField(
               controller:
-                  Provider.of<TodoProvider>(context).taskTitleController,
+                  Provider.of<DatabaseProvider>(context).taskTitleController,
               decoration: InputDecoration(
                   label: Text('Task title'),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15))),
             ),
             CheckboxListTile(
-              value: Provider.of<TodoProvider>(context).taskIsComplete,
+              value: Provider.of<DatabaseProvider>(context).isComplete,
               onChanged: (value) {
-                Provider.of<TodoProvider>(context, listen: false)
+                Provider.of<DatabaseProvider>(context, listen: false)
                     .changeIsCompleteOnNewTaskScreen();
               },
               title: Text('I have complete this task'),
             ),
             InkWell(
-              onTap: () {
-                Provider.of<TodoProvider>(context, listen: false).addNewTask();
+              onTap: () async {
+                await Provider.of<DatabaseProvider>(context, listen: false)
+                    .insertNewTask();
+                Navigator.pop(context);
               },
               child: Container(
                 alignment: Alignment.center,

@@ -27,14 +27,35 @@ class DatabaseHelper {
 
   Future<List<Task>> getAllTasks() async {
     List<Map<String, Object>> data = await database.query('tasks');
+    List<Task> tasksList = [];
+    for (int x = 0; x < data.length; x++) {
+      Map map = data[x];
+      Task taskObj = Task(
+          id: map['id'],
+          title: map['title'],
+          isComplete: map['isComplete'] == 1 ? true : false);
+      tasksList.add(taskObj);
+    }
 
-    log(data.toString());
+    List<Task> tasksPnjects = data.map((Map map) {
+      // Task taskObj = Task(
+      //     id: map['id'],
+      //     title: map['title'],
+      //     isComplete: map['isComplete'] == 1 ? true : false);
+      return Task.fromMap(map);
+    }).toList();
+    return tasksPnjects;
   }
 
   Future<Task> getOneTask(int id) async {
     List<Map<String, Object>> data =
         await database.query('tasks', where: 'id=?', whereArgs: [id]);
     Map<String, Object> task = data.first;
+    // Task taskObj = Task(
+    //     id: task['id'],
+    //     title: task['title'],
+    //     isComplete: task['isComplete'] == 1 ? true : false);
+    return Task.fromMap(task);
   }
 
   Future<int> insertNewTask(Task task) async {
